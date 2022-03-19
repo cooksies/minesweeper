@@ -9,7 +9,7 @@ function buildGrid() {
 
     var columns = 1;
     var rows = 1;
-
+    
     // Build DOM Grid
     var tile;
     for (var y = 0; y < rows; y++) {
@@ -72,6 +72,24 @@ function setDifficulty() {
     var difficulty = difficultySelector.selectedIndex;
 
     //TODO implement me
+    switch(difficulty){
+        case 0:
+            columns = 9;
+            rows = 9;
+            bombAmount = 10;
+            break;
+        case 1:
+            columns = 16;
+            rows = 16;
+            bombAmount = 40;
+            break;
+        case 2: 
+            columns = 30;
+            rows = 16
+            bombAmount = 99;
+            break;
+
+    }
 }
 
 function startTimer() {
