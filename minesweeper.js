@@ -1,7 +1,8 @@
-
+//global variables
 var time = 0;
 var colNum;
 var rowNum;
+var bombAmount;
 
 
 function buildGrid() {
@@ -33,19 +34,21 @@ function buildGrid() {
 
 function createTile(x,y) {
     var tile = document.createElement("div");
+    tile.id = +y + ',' + x; //sets the id of each tile
 
     tile.classList.add("tile");
     tile.classList.add("hidden");
     
     tile.addEventListener("auxclick", function(e) { e.preventDefault(); }); // Middle Click
     tile.addEventListener("contextmenu", function(e) { e.preventDefault(); }); // Right Click
-    tile.addEventListener("mouseup", handleTileClick ); // All Clicks
+    tile.addEventListener("mousedown", handleTileClick ); // All Clicks
 
     return tile;
 }
 
 function startGame() {
-    setDifficulty();
+    setDifficulty(); //included setDifficulty to change difficulty when smiley is clicked
+    buildGrid();
     startTimer();
 }
 
@@ -60,15 +63,23 @@ function smileyUp() {
 }
 
 function handleTileClick(event) {
+    var click;
     // Left Click
     if (event.which === 1) {
         //TODO reveal the tile
+
     }
     // Right Click
     else if (event.which === 3) {
         //TODO toggle a tile flag
+        if ( document.getElementById(this.id).className.match(/(?:^|\s)tile flag(?!\S)/) ){
+            click = document.getElementById(this.id).className = "tile hidden"
+        }
+        else{
+            click = document.getElementById(this.id).className = "tile flag"
+        }
+        
     }
-}
 
 function setDifficulty() {
     var difficultySelector = document.getElementById("difficulty");
@@ -79,17 +90,17 @@ function setDifficulty() {
         case 0:
             colNum = 9;
             rowNum = 9;
-            buildGrid();
+            bombAmount = 10;
             break;
         case 1:
             colNum = 16;
             rowNum = 16;
-            buildGrid();
+            bombAmount = 40;
             break;    
         case 2:
             colNum = 30;
             rowNum = 16;
-            buildGrid();
+            bombAmount = 99;
             break;    
     }
     
