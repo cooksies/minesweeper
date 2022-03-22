@@ -67,7 +67,7 @@ function handleTileClick(event) {
     // Left Click
     if (event.which === 1) {
         //TODO reveal the tile
-
+        
     }
     // Right Click
     else if (event.which === 3) {
@@ -80,6 +80,7 @@ function handleTileClick(event) {
         }
         
     }
+}
 
 function setDifficulty() {
     var difficultySelector = document.getElementById("difficulty");
