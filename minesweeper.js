@@ -30,8 +30,6 @@ function buildGrid() {
     
     grid.style.width = (columns * width) + "px";
     grid.style.height = (rows * height) + "px";
-
-    
 }
 
 function createTile(x,y) {
