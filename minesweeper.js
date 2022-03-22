@@ -30,6 +30,8 @@ function buildGrid() {
     
     grid.style.width = (columns * width) + "px";
     grid.style.height = (rows * height) + "px";
+
+    
 }
 
 function createTile(x,y) {
@@ -50,6 +52,7 @@ function startGame() {
     setDifficulty(); //included setDifficulty to change difficulty when smiley is clicked
     buildGrid();
     startTimer();
+    inactivityTime();
 }
 
 function smileyDown() {
@@ -64,6 +67,7 @@ function smileyUp() {
 
 function handleTileClick(event) {
     var click;
+    
     // Left Click
     if (event.which === 1) {
         //TODO reveal the tile
@@ -71,7 +75,7 @@ function handleTileClick(event) {
             //prevents user from clicking a flagged tile
         }
         else {
-            click = document.getElementById(this.id).className = "tile"
+            document.getElementById(this.id).className = "tile"
         }
         
     }
@@ -79,10 +83,10 @@ function handleTileClick(event) {
     else if (event.which === 3) {
         //TODO toggle a tile flag
         if (document.getElementById(this.id).className.match(/(?:^|\s)tile flag(?!\S)/)){
-            click = document.getElementById(this.id).className = "tile hidden"
+            document.getElementById(this.id).className = "tile hidden"
         }
         else if(document.getElementById(this.id).className.match(/(?:^|\s)tile hidden(?!\S)/) ){
-            click = document.getElementById(this.id).className = "tile flag"
+            document.getElementById(this.id).className = "tile flag"
         }
         
     }
@@ -140,12 +144,13 @@ function inactivityTime() {
     window.addEventListener('scroll', resetTime, true);
 
     function alertUser() {
-        document.getElementById("smiley").className = "smiley face_limbo"
+        document.getElementById("smiley").classList.add("face_limbo");
     }
 
     function resetTime() {
         clearTimeout(timeOut);
         timeOut = setTimeout(alertUser, 1000 * 10); // 10 seconds
+        document.getElementById("smiley").classList.remove("face_limbo");
     }
 
 };
