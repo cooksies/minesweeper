@@ -4,7 +4,6 @@ var colNum;
 var rowNum;
 var bombAmount;
 
-
 function buildGrid() {
 
     // Fetch grid and clear out old elements.
@@ -21,6 +20,17 @@ function buildGrid() {
             tile = createTile(x,y);
             grid.appendChild(tile);
         }
+    }
+
+    var tiles = document.getElementById("minefield").children;
+
+    var randIndex
+    for(var i = 0; i<bombAmount;i++){
+        randIndex = Math.floor(Math.random()*(rowNum*colNum));
+        while(tiles[randIndex].classList.contains("mine")){
+            randIndex = Math.floor(Math.random()*(rowNum*colNum));
+        }
+        tiles[randIndex].classList.add("mine");
     }
     
     var style = window.getComputedStyle(tile);
@@ -64,7 +74,6 @@ function smileyUp() {
 }
 
 function handleTileClick(event) {
-    var click;
     
     // Left Click
     if (event.which === 1) {
@@ -151,4 +160,4 @@ function inactivityTime() {
         document.getElementById("smiley").classList.remove("face_limbo");
     }
 
-};
+}
