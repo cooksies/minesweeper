@@ -67,15 +67,21 @@ function handleTileClick(event) {
     // Left Click
     if (event.which === 1) {
         //TODO reveal the tile
+        if (document.getElementById(this.id).className.match(/(?:^|\s)tile flag(?!\S)/)){
+            //prevents user from clicking a flagged tile
+        }
+        else {
+            click = document.getElementById(this.id).className = "tile"
+        }
         
     }
     // Right Click
     else if (event.which === 3) {
         //TODO toggle a tile flag
-        if ( document.getElementById(this.id).className.match(/(?:^|\s)tile flag(?!\S)/) ){
+        if (document.getElementById(this.id).className.match(/(?:^|\s)tile flag(?!\S)/)){
             click = document.getElementById(this.id).className = "tile hidden"
         }
-        else{
+        else if(document.getElementById(this.id).className.match(/(?:^|\s)tile hidden(?!\S)/) ){
             click = document.getElementById(this.id).className = "tile flag"
         }
         
@@ -120,3 +126,26 @@ function onTimerTick() {
 function updateTimer() {
     document.getElementById("timer").innerHTML = timeValue;
 }
+
+function inactivityTime() {
+    var timeOut;
+    
+    // events
+    window.onload = resetTime;
+    window.onclick = resetTime;
+    window.onkeypress = resetTime;
+    window.ontouchstart = resetTime;
+    window.onmousemove = resetTime;
+    window.onmousedown = resetTime;
+    window.addEventListener('scroll', resetTime, true);
+
+    function alertUser() {
+        document.getElementById("smiley").className = "smiley face_limbo"
+    }
+
+    function resetTime() {
+        clearTimeout(timeOut);
+        timeOut = setTimeout(alertUser, 1000 * 10); // 10 seconds
+    }
+
+};
