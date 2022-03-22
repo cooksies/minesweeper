@@ -1,18 +1,17 @@
 
 var time = 0;
-let bombAmount = 10;
-let tiles =[]
-let columns = 9
-let rows = 9
+var colNum;
+var rowNum;
+
 
 function buildGrid() {
 
     // Fetch grid and clear out old elements.
     var grid = document.getElementById("minefield");
-    grid.innerHTML = " ";
+    grid.innerHTML = "";
 
-    // var columns = 9;
-    // var rows = 9;
+    var columns = colNum;
+    var rows = rowNum;
 
     // Build DOM Grid
     var tile;
@@ -20,8 +19,6 @@ function buildGrid() {
         for (var x = 0; x < columns; x++) {
             tile = createTile(x,y);
             grid.appendChild(tile);
-            tiles.push(tile)
-            console.log(tile)
         }
     }
     
@@ -34,18 +31,11 @@ function buildGrid() {
     grid.style.height = (rows * height) + "px";
 }
 
-function createTile(x,y) { //x and y are not being used here
-    const tile = document.createElement("div");
-    tile.setAttribute ('id', y*10+x)
-
-    var bombsArray = Array(bombAmount).fill("mine");
-    var emptyArray = Array(rows*columns - bombAmount).fill("hidden")
-    var gameArray = emptyArray.concat(bombsArray)
-    var shuffledArray = gameArray.sort(() => Math.random() -0.5)
+function createTile(x,y) {
+    var tile = document.createElement("div");
 
     tile.classList.add("tile");
-    // tile.classList.add("hidden");
-    tile.classList.add(shuffledArray[x,y])
+    tile.classList.add("hidden");
     
     tile.addEventListener("auxclick", function(e) { e.preventDefault(); }); // Middle Click
     tile.addEventListener("contextmenu", function(e) { e.preventDefault(); }); // Right Click
@@ -55,7 +45,7 @@ function createTile(x,y) { //x and y are not being used here
 }
 
 function startGame() {
-    buildGrid();
+    setDifficulty();
     startTimer();
 }
 
@@ -85,27 +75,24 @@ function setDifficulty() {
     var difficulty = difficultySelector.selectedIndex;
 
     //TODO implement me
-    switch(difficultySelector.options[difficulty].value){
+    switch(difficulty){
         case 0:
-            columns = 9;
-            rows = 9;
-            bombAmount = 10;
-            buildGrid()
+            colNum = 9;
+            rowNum = 9;
+            buildGrid();
             break;
         case 1:
-            columns = 16;
-            rows = 16;
-            bombAmount = 40;
-            buildGrid()
-            break;
-        case 2: 
-            columns = 30;
-            rows = 16
-            bombAmount = 99;
-            buildGrid()
-            break;
-
+            colNum = 16;
+            rowNum = 16;
+            buildGrid();
+            break;    
+        case 2:
+            colNum = 30;
+            rowNum = 16;
+            buildGrid();
+            break;    
     }
+    
 }
 
 function startTimer() {
