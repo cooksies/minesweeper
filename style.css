@@ -6,6 +6,7 @@
 }
 
 .hidden {
+    z-index: 10;
     background-image: url("../images/hidden.png");
 }
 

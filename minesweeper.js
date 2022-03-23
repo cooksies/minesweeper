@@ -4,6 +4,7 @@ var colNum;
 var rowNum;
 var bombAmount;
 var tiles;
+var mineHit = false;
 
 function buildGrid() {
 
@@ -124,6 +125,8 @@ function handleTileClick(event) {
         if(document.getElementById(this.id).classList.contains("mine")){
             document.getElementById(this.id).classList.add("mine_hit");
             
+            mineHit=true;
+
             //reveal everything
             tiles = document.getElementById("minefield").children;
             for(var i = 0; i<rowNum*colNum;i++){
@@ -132,7 +135,7 @@ function handleTileClick(event) {
                 }
                 tiles[i].classList.remove("hidden");
             }
-            document.getElementById(this.id).onclick = alert("You hit a mine!\n\nGAME OVER!")
+            document.getElementById(this.id).onclick = alert("You hit a mine!\n\nGAME OVER!\n\nTime: " + time)
         }
         else if (document.getElementById(this.id).classList.contains("flag")){
             //prevents user from clicking a flagged tile
@@ -197,7 +200,13 @@ function setDifficulty() {
 
 function startTimer() {
     timeValue = 0;
-    window.setInterval(onTimerTick, 1000);
+    if(mineHit === false){
+        window.setInterval(onTimerTick, 1000);
+    }
+    else{
+        window.clearTimeout(onTimerTick)
+    }
+    
 }
 
 function onTimerTick() {
@@ -207,6 +216,7 @@ function onTimerTick() {
 
 function updateTimer() {
     document.getElementById("timer").innerHTML = timeValue;
+    time = timeValue
 }
 
 function inactivityTime() {
@@ -232,3 +242,15 @@ function inactivityTime() {
     }
 
 }
+
+// function gameOver() {
+//     clearInterval(startCountDown);
+
+//     const button = document.querySelector('button')
+//     button.removeEventListener('click', pointsClick)
+
+//     const gameOver = document.createElement('h1');
+//     gameOver.innerHTML = 'GAME OVER!' + '<br>' + `Total Score: ${totalScore}`;
+
+//     gameDiv.append(gameOver);
+// }
