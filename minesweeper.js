@@ -3,6 +3,7 @@ var time = 0;
 var colNum;
 var rowNum;
 var bombAmount;
+var tiles;
 
 function buildGrid() {
 
@@ -10,19 +11,16 @@ function buildGrid() {
     var grid = document.getElementById("minefield");
     grid.innerHTML = "";
 
-    var columns = colNum;
-    var rows = rowNum;
-
     // Build DOM Grid
     var tile;
-    for (var y = 0; y < rows; y++) {
-        for (var x = 0; x < columns; x++) {
+    for (var y = 0; y < rowNum; y++) {
+        for (var x = 0; x < colNum; x++) {
             tile = createTile(x,y);
             grid.appendChild(tile);
         }
     }
 
-    var tiles = document.getElementById("minefield").children;
+    tiles = document.getElementById("minefield").children;
 
     var randIndex
     for(var i = 0; i<bombAmount;i++){
@@ -38,8 +36,8 @@ function buildGrid() {
     var width = parseInt(style.width.slice(0, -2));
     var height = parseInt(style.height.slice(0, -2));
     
-    grid.style.width = (columns * width) + "px";
-    grid.style.height = (rows * height) + "px";
+    grid.style.width = (colNum * width) + "px";
+    grid.style.height = (rowNum * height) + "px";
 }
 
 function createTile(x,y) {
@@ -78,22 +76,38 @@ function handleTileClick(event) {
     // Left Click
     if (event.which === 1) {
         //TODO reveal the tile
-        if (document.getElementById(this.id).className.match(/(?:^|\s)tile flag(?!\S)/)){
+        if(document.getElementById(this.id).classList.contains("mine")){
+            document.getElementById(this.id).classList.add("mine_hit");
+            
+            //reveal everything
+            tiles = document.getElementById("minefield").children;
+            for(var i = 0; i<rowNum*colNum;i++){
+                tiles[i].classList.remove("hidden");
+                if(tiles[i].classList.contains("flag")){
+                    tiles[i].classList.replace("flag","mine_marked")
+                }
+            }
+            document.getElementById(this.id).onclick = alert("You hit a mine!\n\nGAME OVER!")
+        }
+        else if (document.getElementById(this.id).classList.contains("flag")){
             //prevents user from clicking a flagged tile
         }
         else {
-            document.getElementById(this.id).className = "tile"
+            document.getElementById(this.id).className = "tile";
+
+            //need to check neighboring cells
+            
         }
         
     }
     // Right Click
     else if (event.which === 3) {
         //TODO toggle a tile flag
-        if (document.getElementById(this.id).className.match(/(?:^|\s)tile flag(?!\S)/)){
-            document.getElementById(this.id).className = "tile hidden"
+        if (document.getElementById(this.id).classList.contains("flag")){
+            document.getElementById(this.id).classList.replace("flag", "hidden")
         }
-        else if(document.getElementById(this.id).className.match(/(?:^|\s)tile hidden(?!\S)/) ){
-            document.getElementById(this.id).className = "tile flag"
+        else if(document.getElementById(this.id).classList.contains("hidden") ){
+            document.getElementById(this.id).classList.replace("hidden", "flag")
         }
         
     }
