@@ -21,7 +21,13 @@ function buildGrid() {
     }
 
     tiles = document.getElementById("minefield").children;
+    
+    //set id for every tile
+    for (var i = 0; i < rowNum*colNum; i++){
+        tiles[i].setAttribute('id',i);
+    }
 
+    //place bombs
     var randIndex
     for(var i = 0; i<bombAmount;i++){
         randIndex = Math.floor(Math.random()*(rowNum*colNum));
@@ -29,6 +35,46 @@ function buildGrid() {
             randIndex = Math.floor(Math.random()*(rowNum*colNum));
         }
         tiles[randIndex].classList.add("mine");
+    }
+
+    //check how many bombs are beside each tile
+    for(var i = 0; i < tiles.length; i++){
+        var nearBomb = 0;
+        const isLeftEdge = (i%colNum === 0)
+        const isRightEdge = (i%colNum === colNum -1)
+
+        if (tiles[i].classList.contains("hidden")){
+            if(i > 0 && !isLeftEdge && tiles[i -1].classList.contains("mine")){
+                nearBomb++;
+            }
+            if(i>colNum && !isRightEdge && tiles[i +1 -colNum].classList.contains("mine")){
+                nearBomb++;
+            }
+            if(i > colNum+1 && tiles[i-colNum].classList.contains("mine")){
+                nearBomb++;
+            }
+            if(i>colNum+2 && !isLeftEdge && tiles[i -1 -colNum].classList.contains("mine")){
+                nearBomb++;
+            }
+            if(i<rowNum*colNum-1 && !isRightEdge && tiles[i+1].classList.contains("mine")){
+                nearBomb++;
+            }
+            if(i<rowNum*colNum-colNum && !isLeftEdge && tiles[i -1 +colNum].classList.contains("mine")){
+                nearBomb++;
+            }
+            if(i<rowNum*colNum-colNum-2 && !isRightEdge && tiles[i +1 +colNum].classList.contains("mine")){
+                nearBomb++
+            }
+            if(i<rowNum*colNum-colNum-1 && tiles[i +colNum].classList.contains("mine")){
+                nearBomb++;
+            }
+            tiles[i].setAttribute("data",nearBomb)
+        }
+        if(tiles[i].classList.contains("mine")){
+        }
+        else{
+            tiles[i].classList.add("tile_"+nearBomb);
+        }
     }
     
     var style = window.getComputedStyle(tile);
@@ -42,7 +88,6 @@ function buildGrid() {
 
 function createTile(x,y) {
     var tile = document.createElement("div");
-    tile.id = +y + ',' + x; //sets the id of each tile
 
     tile.classList.add("tile");
     tile.classList.add("hidden");
@@ -82,10 +127,10 @@ function handleTileClick(event) {
             //reveal everything
             tiles = document.getElementById("minefield").children;
             for(var i = 0; i<rowNum*colNum;i++){
-                tiles[i].classList.remove("hidden");
-                if(tiles[i].classList.contains("flag")){
-                    tiles[i].classList.replace("flag","mine_marked")
+                if(tiles[i].classList.contains("flag mine")){
+                    tiles[i].classList.replace("flag mine","mine_marked")
                 }
+                tiles[i].classList.remove("hidden");
             }
             document.getElementById(this.id).onclick = alert("You hit a mine!\n\nGAME OVER!")
         }
@@ -93,10 +138,7 @@ function handleTileClick(event) {
             //prevents user from clicking a flagged tile
         }
         else {
-            document.getElementById(this.id).className = "tile";
-
-            //need to check neighboring cells
-            
+            checkNeighbor(this.id)
         }
         
     }
@@ -111,6 +153,21 @@ function handleTileClick(event) {
         }
         
     }
+}
+
+function checkNeighbor(id){
+    //need to check neighboring cells
+    //check if we are at the edge
+    const isLeftEdge = (id%colNum === 0)
+    const isRightEdge = (id%colNum === colNum -1)
+    var position = parseInt(id)
+
+    if(!isLeftEdge){
+
+    }
+
+    document.getElementById(id).classList.remove("hidden");
+
 }
 
 function setDifficulty() {
