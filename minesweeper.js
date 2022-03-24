@@ -151,13 +151,12 @@ function handleTileClick(event) {
         }        
         else {
             let total = document.getElementById(this.id).getAttribute('data')
-            console.log(total)
             if (total != 0){
                 document.getElementById(this.id).classList.add("tile_"+total)
             }
             
             document.getElementById(this.id).classList.remove("hidden")
-            checkNeighbor(event, this.id)
+            // checkNeighbor(total,this.id)
         }
         
     }
@@ -174,28 +173,66 @@ function handleTileClick(event) {
     }
 }
 
-function checkNeighbor(event, id){
-    //need to check neighboring cells
-    //check if we are at the edge
-    const isLeftEdge = (id%colNum === 0)
-    const isRightEdge = (id%colNum === colNum -1)
-    var position = parseInt(id)
-    tiles = document.getElementById("minefield").children;
+// function checkNeighbor(total, id){
+//     //need to check neighboring cells
+//     //check if we are at the edge
+//     const isLeftEdge = (id%colNum === 0)
+//     const isRightEdge = (id%colNum === colNum -1)
 
-    setTimeout(()=>{
-        if(id>0 && !isLeftEdge){
-        const newId = tiles[position-1]
-        const newTile = document.getElementById(newId)
-        // handleTileClick();
-        checkNeighbor(event,newTile)
-    }
+//     if (!document.getElementById(id).classList.contains("bomb")){
+//         if(id >= 0 && !isLeftEdge && !document.getElementById(id-1).classList.contains("bomb")){
+//             const newId = id-1
+//             const newTile = document.getElementById(newId)
+//             total = document.getElementById(newTile).getAttribute('data')
+//             checkNeighbor(total,newTile)
+//         }
+//         if(id >= colNum-1 && !isRightEdge && !document.getElementById(id+1-colNum).classList.contains("bomb")){
+//             const newId = id+1-colNum
+//             const newTile = document.getElementById(newId)
+//             total = document.getElementById(newTile).getAttribute('data')
+//             checkNeighbor(total,newTile)
+//         }
+//         if(id >= colNum && !document.getElementById(id-colNum).classList.contains("bomb")){
+//             const newId = id-colNum
+//             const newTile = document.getElementById(newId)
+//             total = document.getElementById(newTile).getAttribute('data')
+//             checkNeighbor(total,newTile)
+//         }
+//         if(id>=colNum+1 && !isLeftEdge && !document.getElementById(id-1-colNum).classList.contains("bomb")){
+//             const newId = id-1-colNum
+//             const newTile = document.getElementById(newId)
+//             total = document.getElementById(newTile).getAttribute('data')
+//             checkNeighbor(total,newTile)
+//         }
+//         if(id<=rowNum*colNum-1 && !isRightEdge && !document.getElementById(id+1).classList.contains("bomb")){
+//             const newId = id+1
+//             const newTile = document.getElementById(newId)
+//             total = document.getElementById(newTile).getAttribute('data')
+//             checkNeighbor(total,newTile)
+//         }
+//         if(id<=rowNum*colNum-colNum && !isLeftEdge && !document.getElementById(id-1+colNum).classList.contains("bomb")){
+//             const newId = id-1+colNum
+//             const newTile = document.getElementById(newId)
+//             total = document.getElementById(newTile).getAttribute('data')
+//             checkNeighbor(total,newTile)
+//         }
+//         if(id<=rowNum*colNum-colNum-2 && !isRightEdge && !document.getElementById(id+1+colNum).classList.contains("bomb")){
+//             const newId = id+1+colNum
+//             const newTile = document.getElementById(newId)
+//             total = document.getElementById(newTile).getAttribute('data')
+//             checkNeighbor(total,newTile)
+//         }
+//         if(id<=rowNum*colNum-colNum-1 && !document.getElementById(id+colNum).classList.contains("bomb")){
+//             const newId = id+colNum
+//             const newTile = document.getElementById(newId)
+//             total = document.getElementById(newTile).getAttribute('data')
+//             checkNeighbor(total,newTile)
+//         }
+//         tiles[i].setAttribute("data",nearBomb)
+//     }
+//     // document.getElementById(id).classList.remove("hidden");
 
-    }, 10)
-    
-
-    document.getElementById(id).classList.remove("hidden");
-
-}
+// }
 
 function setDifficulty() {
     var difficultySelector = document.getElementById("difficulty");
