@@ -155,8 +155,7 @@ function handleTileClick(event) {
                 document.getElementById(this.id).classList.add("tile_"+total)
             }
             
-            document.getElementById(this.id).classList.remove("hidden")
-            // checkNeighbor(total,this.id)
+            checkNeighbor(total,this.id)
         }
         
     }
@@ -173,66 +172,73 @@ function handleTileClick(event) {
     }
 }
 
-// function checkNeighbor(total, id){
-//     //need to check neighboring cells
-//     //check if we are at the edge
-//     const isLeftEdge = (id%colNum === 0)
-//     const isRightEdge = (id%colNum === colNum -1)
+function checkNeighbor(total, id){
+    //need to check neighboring cells
+    //check if we are at the edge
+    const isLeftEdge = (id%colNum === 0)
+    const isRightEdge = (id%colNum === colNum -1)
 
-//     if (!document.getElementById(id).classList.contains("bomb")){
-//         if(id >= 0 && !isLeftEdge && !document.getElementById(id-1).classList.contains("bomb")){
-//             const newId = id-1
-//             const newTile = document.getElementById(newId)
-//             total = document.getElementById(newTile).getAttribute('data')
-//             checkNeighbor(total,newTile)
-//         }
-//         if(id >= colNum-1 && !isRightEdge && !document.getElementById(id+1-colNum).classList.contains("bomb")){
-//             const newId = id+1-colNum
-//             const newTile = document.getElementById(newId)
-//             total = document.getElementById(newTile).getAttribute('data')
-//             checkNeighbor(total,newTile)
-//         }
-//         if(id >= colNum && !document.getElementById(id-colNum).classList.contains("bomb")){
-//             const newId = id-colNum
-//             const newTile = document.getElementById(newId)
-//             total = document.getElementById(newTile).getAttribute('data')
-//             checkNeighbor(total,newTile)
-//         }
-//         if(id>=colNum+1 && !isLeftEdge && !document.getElementById(id-1-colNum).classList.contains("bomb")){
-//             const newId = id-1-colNum
-//             const newTile = document.getElementById(newId)
-//             total = document.getElementById(newTile).getAttribute('data')
-//             checkNeighbor(total,newTile)
-//         }
-//         if(id<=rowNum*colNum-1 && !isRightEdge && !document.getElementById(id+1).classList.contains("bomb")){
-//             const newId = id+1
-//             const newTile = document.getElementById(newId)
-//             total = document.getElementById(newTile).getAttribute('data')
-//             checkNeighbor(total,newTile)
-//         }
-//         if(id<=rowNum*colNum-colNum && !isLeftEdge && !document.getElementById(id-1+colNum).classList.contains("bomb")){
-//             const newId = id-1+colNum
-//             const newTile = document.getElementById(newId)
-//             total = document.getElementById(newTile).getAttribute('data')
-//             checkNeighbor(total,newTile)
-//         }
-//         if(id<=rowNum*colNum-colNum-2 && !isRightEdge && !document.getElementById(id+1+colNum).classList.contains("bomb")){
-//             const newId = id+1+colNum
-//             const newTile = document.getElementById(newId)
-//             total = document.getElementById(newTile).getAttribute('data')
-//             checkNeighbor(total,newTile)
-//         }
-//         if(id<=rowNum*colNum-colNum-1 && !document.getElementById(id+colNum).classList.contains("bomb")){
-//             const newId = id+colNum
-//             const newTile = document.getElementById(newId)
-//             total = document.getElementById(newTile).getAttribute('data')
-//             checkNeighbor(total,newTile)
-//         }
-//         tiles[i].setAttribute("data",nearBomb)
-//     }
-//     // document.getElementById(id).classList.remove("hidden");
+    if (!document.getElementById(id).classList.contains("bomb")){
+        if(id >= 0 && !isLeftEdge && !document.getElementById(id-1).classList.contains("bomb")){
+            const newId = id-1
+            const newTile = document.getElementById(newId)
+            total = newTile.getAttribute('data')
+            newTile.classList.remove("hidden")
+            checkNeighbor(total,newTile)
+        }
+        if(id >= colNum-1 && !isRightEdge && !document.getElementById(id+1-colNum).classList.contains("bomb")){
+            const newId = id+1-colNum
+            const newTile = document.getElementById(newId)
+            total = newTile.getAttribute('data')
+            newTile.classList.remove("hidden")
+            checkNeighbor(total,newTile)
+        }
+        if(id >= colNum && !document.getElementById(id-colNum).classList.contains("bomb")){
+            const newId = id-colNum
+            const newTile = document.getElementById(newId)
+            total = newTile.getAttribute('data')
+            newTile.classList.remove("hidden")
+            checkNeighbor(total,newTile)
+        }
+        if(id>=colNum+1 && !isLeftEdge && !document.getElementById(id-1-colNum).classList.contains("bomb")){
+            const newId = id-1-colNum
+            const newTile = document.getElementById(newId)
+            total = newTile.getAttribute('data')
+            newTile.classList.remove("hidden")
+            checkNeighbor(total,newTile)
+        }
+        if(id<=rowNum*colNum-1 && !isRightEdge && !document.getElementById(id+1).classList.contains("bomb")){
+            const newId = id+1
+            const newTile = document.getElementById(newId)
+            total = newTile.getAttribute('data')
+            newTile.classList.remove("hidden")
+            checkNeighbor(total,newTile)
+        }
+        if(id<=rowNum*colNum-colNum && !isLeftEdge && !document.getElementById(id-1+colNum).classList.contains("bomb")){
+            const newId = id-1+colNum
+            const newTile = document.getElementById(newId)
+            total = newTile.getAttribute('data')
+            newTile.classList.remove("hidden")
+            checkNeighbor(total,newTile)
+        }
+        if(id<=rowNum*colNum-colNum-2 && !isRightEdge && !document.getElementById(id+1+colNum).classList.contains("bomb")){
+            const newId = id+1+colNum
+            const newTile = document.getElementById(newId)
+            total = newTile.getAttribute('data')
+            newTile.classList.remove("hidden")
+            checkNeighbor(total,newTile)
+        }
+        if(id<=rowNum*colNum-colNum-1 && !document.getElementById(id+colNum).classList.contains("bomb")){
+            const newId = id+colNum
+            const newTile = document.getElementById(newId)
+            total = newTile.getAttribute('data')
+            newTile.classList.remove("hidden")
+            checkNeighbor(total,newTile)
+        }
+    }
+    // document.getElementById(id).classList.remove("hidden");
 
-// }
+}
 
 function setDifficulty() {
     var difficultySelector = document.getElementById("difficulty");
