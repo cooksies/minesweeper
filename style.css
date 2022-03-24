@@ -5,11 +5,6 @@
     background-image: url("../images/clear.png");
 }
 
-.hidden {
-    z-index: 10;
-    background-image: url("../images/hidden.png");
-}
-
 .flag {
     background-image: url("../images/flag.png");
 }
@@ -22,10 +17,6 @@
 }
 .mine_marked {
     background-image: url("../images/mine_marked.png");
-}
-
-.bomb{
-    
 }
 
 .tile_1 {
@@ -78,4 +69,9 @@ h1 {
 div {
     margin:auto;
     text-align: center;
+}
+
+.hidden {
+    z-index: 10;
+    background-image: url("../images/hidden.png");
 }

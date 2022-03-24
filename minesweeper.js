@@ -133,7 +133,9 @@ function handleTileClick(event) {
                 if(tiles[i].classList.contains("flag mine")){
                     tiles[i].classList.replace("flag mine","mine_marked")
                 }
-                tiles[i].classList.remove("hidden");
+                if(tiles[i].classList.contains("mine")){
+                    tiles[i].classList.remove("hidden");
+                }                
             }
             document.getElementById(this.id).onclick = alert("You hit a mine!\n\nGAME OVER!\n\nTime: " + time)
         }
