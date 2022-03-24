@@ -138,8 +138,8 @@ function handleTileClick(event) {
                 //reveal everything
                 tiles = document.getElementById("minefield").children;
                 for(var i = 0; i<rowNum*colNum;i++){
-                    if(tiles[i].classList.contains("flag mine")){
-                        tiles[i].classList.replace("flag mine","mine_marked")
+                    if(tiles[i].classList.contains("flag", "mine")){
+                        tiles[i].classList.replace(("flag", "mine"),"mine_marked")
                     }
                     if(tiles[i].classList.contains("mine")){
                         tiles[i].classList.remove("hidden");
