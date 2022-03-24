@@ -6,7 +6,6 @@ var bombAmount;
 var tiles;
 var mineHit = false;
 var click = 0;
-var isGameOver=false;
 
 function buildGrid() {
 
@@ -34,10 +33,10 @@ function buildGrid() {
     var randIndex
     for(var i = 0; i<bombAmount;i++){
         randIndex = Math.floor(Math.random()*(rowNum*colNum));
-        while(tiles[randIndex].classList.contains("bomb")){
+        while(tiles[randIndex].classList.contains("mine")){
             randIndex = Math.floor(Math.random()*(rowNum*colNum));
         }
-        tiles[randIndex].classList.add("bomb");
+        tiles[randIndex].classList.add("mine");
     }
 
     //check how many bombs are beside each tile
@@ -47,31 +46,36 @@ function buildGrid() {
         const isRightEdge = (i%colNum === colNum -1)
 
         if (tiles[i].classList.contains("hidden")){
-            if(i >= 0 && !isLeftEdge && tiles[i -1].classList.contains("bomb")){
+            if(i > 0 && !isLeftEdge && tiles[i -1].classList.contains("mine")){
                 nearBomb++;
             }
-            if(i >= colNum-1 && !isRightEdge && tiles[i +1 -colNum].classList.contains("bomb")){
+            if(i>colNum && !isRightEdge && tiles[i +1 -colNum].classList.contains("mine")){
                 nearBomb++;
             }
-            if(i >= colNum && tiles[i-colNum].classList.contains("bomb")){
+            if(i > colNum+1 && tiles[i-colNum].classList.contains("mine")){
                 nearBomb++;
             }
-            if(i>=colNum+1 && !isLeftEdge && tiles[i -1 -colNum].classList.contains("bomb")){
+            if(i>colNum+2 && !isLeftEdge && tiles[i -1 -colNum].classList.contains("mine")){
                 nearBomb++;
             }
-            if(i<=rowNum*colNum-1 && !isRightEdge && tiles[i+1].classList.contains("bomb")){
+            if(i<rowNum*colNum-1 && !isRightEdge && tiles[i+1].classList.contains("mine")){
                 nearBomb++;
             }
-            if(i<=rowNum*colNum-colNum && !isLeftEdge && tiles[i -1 +colNum].classList.contains("bomb")){
+            if(i<rowNum*colNum-colNum && !isLeftEdge && tiles[i -1 +colNum].classList.contains("mine")){
                 nearBomb++;
             }
-            if(i<=rowNum*colNum-colNum-2 && !isRightEdge && tiles[i +1 +colNum].classList.contains("bomb")){
+            if(i<rowNum*colNum-colNum-2 && !isRightEdge && tiles[i +1 +colNum].classList.contains("mine")){
                 nearBomb++
             }
-            if(i<=rowNum*colNum-colNum-1 && tiles[i +colNum].classList.contains("bomb")){
+            if(i<rowNum*colNum-colNum-1 && tiles[i +colNum].classList.contains("mine")){
                 nearBomb++;
             }
             tiles[i].setAttribute("data",nearBomb)
+        }
+        if(tiles[i].classList.contains("mine")){
+        }
+        else{
+            tiles[i].classList.add("tile_"+nearBomb);
         }
     }
     
@@ -115,16 +119,12 @@ function smileyUp() {
 }
 
 function handleTileClick(event) {
-    //prevent user from inputting
-    //if(isGameOver){return}
     
     // Left Click
     if (event.which === 1) {
         click++;
-        if(!document.getElementById(this.id).classList.contains("hidden") || document.getElementById(this.id).classList.contains("flag")){
-            return
-        }
-        else if(document.getElementById(this.id).classList.contains("bomb")){
+        //TODO reveal the tile
+        if(document.getElementById(this.id).classList.contains("mine")){
             //trying to avoid the first tile clicked to be a mine
             // if(click === 1){
             //     startGame();
@@ -138,14 +138,15 @@ function handleTileClick(event) {
                 //reveal everything
                 tiles = document.getElementById("minefield").children;
                 for(var i = 0; i<rowNum*colNum;i++){
-                    if(tiles[i].classList.contains("flag", "bomb")){
-                        tiles[i].classList.replace("bomb","mine_marked")
+                    if(tiles[i].classList.contains("flag", "mine")){
+                        tiles[i].classList.replace(("flag", "mine"),"mine_marked")
                     }
-                    if(tiles[i].classList.contains("bomb")){
-                        tiles[i].classList.add("mine");
+                    if(tiles[i].classList.contains("mine")){
+                        tiles[i].classList.remove("hidden");
                     }                
                 }
                 document.getElementById(this.id).onclick = alert("You hit a mine!\n\nGAME OVER!\n\nTime: " + time)
+<<<<<<< HEAD
                 //isGameOver=true
             // }            
         }        
@@ -156,6 +157,16 @@ function handleTileClick(event) {
             }
             
             checkNeighbor(total,this.id)
+=======
+            // }
+            
+        }
+        else if (document.getElementById(this.id).classList.contains("flag")){
+            //prevents user from clicking a flagged tile
+        }
+        else {
+            checkNeighbor(tiles,this.id)
+>>>>>>> parent of 52547cc (all tiles properly hidden)
         }
         
     }
@@ -172,11 +183,16 @@ function handleTileClick(event) {
     }
 }
 
+<<<<<<< HEAD
 function checkNeighbor(total, id){
+=======
+function checkNeighbor(tiles, id){
+>>>>>>> parent of 52547cc (all tiles properly hidden)
     //need to check neighboring cells
     //check if we are at the edge
     const isLeftEdge = (id%colNum === 0)
     const isRightEdge = (id%colNum === colNum -1)
+<<<<<<< HEAD
 
     if (!document.getElementById(id).classList.contains("bomb")){
         if(id >= 0 && !isLeftEdge && !document.getElementById(id-1).classList.contains("bomb")){
@@ -237,6 +253,15 @@ function checkNeighbor(total, id){
         }
     }
     // document.getElementById(id).classList.remove("hidden");
+=======
+    var position = parseInt(id)
+
+    if(!isLeftEdge){
+
+    }
+
+    document.getElementById(id).classList.remove("hidden");
+>>>>>>> parent of 52547cc (all tiles properly hidden)
 
 }
 
