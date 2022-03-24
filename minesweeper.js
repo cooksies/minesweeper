@@ -5,6 +5,7 @@ var rowNum;
 var bombAmount;
 var tiles;
 var mineHit = false;
+var click = 0;
 
 function buildGrid() {
 
@@ -121,29 +122,38 @@ function handleTileClick(event) {
     
     // Left Click
     if (event.which === 1) {
+        click++;
         //TODO reveal the tile
         if(document.getElementById(this.id).classList.contains("mine")){
-            document.getElementById(this.id).classList.add("mine_hit");
-            
-            mineHit=true;
+            //trying to avoid the first tile clicked to be a mine
+            // if(click === 1){
+            //     startGame();
+            //     click=0;
+            // }
+            // else{
+                document.getElementById(this.id).classList.add("mine_hit");
+                
+                mineHit=true;
 
-            //reveal everything
-            tiles = document.getElementById("minefield").children;
-            for(var i = 0; i<rowNum*colNum;i++){
-                if(tiles[i].classList.contains("flag mine")){
-                    tiles[i].classList.replace("flag mine","mine_marked")
+                //reveal everything
+                tiles = document.getElementById("minefield").children;
+                for(var i = 0; i<rowNum*colNum;i++){
+                    if(tiles[i].classList.contains("flag mine")){
+                        tiles[i].classList.replace("flag mine","mine_marked")
+                    }
+                    if(tiles[i].classList.contains("mine")){
+                        tiles[i].classList.remove("hidden");
+                    }                
                 }
-                if(tiles[i].classList.contains("mine")){
-                    tiles[i].classList.remove("hidden");
-                }                
-            }
-            document.getElementById(this.id).onclick = alert("You hit a mine!\n\nGAME OVER!\n\nTime: " + time)
+                document.getElementById(this.id).onclick = alert("You hit a mine!\n\nGAME OVER!\n\nTime: " + time)
+            // }
+            
         }
         else if (document.getElementById(this.id).classList.contains("flag")){
             //prevents user from clicking a flagged tile
         }
         else {
-            checkNeighbor(this.id)
+            checkNeighbor(tiles,this.id)
         }
         
     }
@@ -160,7 +170,7 @@ function handleTileClick(event) {
     }
 }
 
-function checkNeighbor(id){
+function checkNeighbor(tiles, id){
     //need to check neighboring cells
     //check if we are at the edge
     const isLeftEdge = (id%colNum === 0)
