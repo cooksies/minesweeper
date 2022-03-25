@@ -176,6 +176,7 @@ function checkNeighbor(id){
     //need to check neighboring cells
     //check if we are at the edge
     tiles = document.getElementById("minefield").children;
+    var pos = parseInt(id)
 
     for(var i = 0; i < tiles.length; i++){
         var nearBomb = 0;
@@ -214,64 +215,70 @@ function checkNeighbor(id){
             if (total != 0){
                 document.getElementById(id).classList.add("tile_"+total)
             }
+            
     document.getElementById(id).classList.remove("hidden")
 
+    
     // if (total==0){
+    //     var nearBomb;
+    //     const isLeftEdge = (pos%colNum === 0)
+    //     const isRightEdge = (pos%colNum === colNum -1)
+
     //     if(id >= 0 && !isLeftEdge && !document.getElementById(id-1).classList.contains("bomb")){
     //         const newId = id-1
     //         const newTile = document.getElementById(newId)
     //         total = newTile.getAttribute('data')
     //         newTile.classList.remove("hidden")
-    //         checkNeighbor(total,newTile)
+    //         checkNeighbor(newTile)
     //     }
     //     if(id >= colNum-1 && !isRightEdge && !document.getElementById(id+1-colNum).classList.contains("bomb")){
     //         const newId = id+1-colNum
     //         const newTile = document.getElementById(newId)
     //         total = newTile.getAttribute('data')
     //         newTile.classList.remove("hidden")
-    //         checkNeighbor(total,newTile)
+    //         checkNeighbor(newTile)
     //     }
     //     if(id >= colNum && !document.getElementById(id-colNum).classList.contains("bomb")){
     //         const newId = id-colNum
     //         const newTile = document.getElementById(newId)
     //         total = newTile.getAttribute('data')
     //         newTile.classList.remove("hidden")
-    //         checkNeighbor(total,newTile)
+    //         checkNeighbor(newTile)
     //     }
     //     if(id>=colNum+1 && !isLeftEdge && !document.getElementById(id-1-colNum).classList.contains("bomb")){
     //         const newId = id-1-colNum
     //         const newTile = document.getElementById(newId)
     //         total = newTile.getAttribute('data')
     //         newTile.classList.remove("hidden")
-    //         checkNeighbor(total,newTile)
+    //         checkNeighbor(newTile)
     //     }
     //     if(id<=rowNum*colNum-1 && !isRightEdge && !document.getElementById(id+1).classList.contains("bomb")){
     //         const newId = id+1
     //         const newTile = document.getElementById(newId)
     //         total = newTile.getAttribute('data')
     //         newTile.classList.remove("hidden")
-    //         checkNeighbor(total,newTile)
+    //         checkNeighbor(newTile)
     //     }
     //     if(id<=rowNum*colNum-colNum && !isLeftEdge && !document.getElementById(id-1+colNum).classList.contains("bomb")){
     //         const newId = id-1+colNum
     //         const newTile = document.getElementById(newId)
     //         total = newTile.getAttribute('data')
     //         newTile.classList.remove("hidden")
-    //         checkNeighbor(total,newTile)
+    //         checkNeighbor(newTile)
     //     }
     //     if(id<=rowNum*colNum-colNum-2 && !isRightEdge && !document.getElementById(id+1+colNum).classList.contains("bomb")){
     //         const newId = id+1+colNum
     //         const newTile = document.getElementById(newId)
     //         total = newTile.getAttribute('data')
     //         newTile.classList.remove("hidden")
-    //         checkNeighbor(total,newTile)
+    //         checkNeighbor(newTile)
     //     }
     //     if(id<=rowNum*colNum-colNum-1 && !document.getElementById(id+colNum).classList.contains("bomb")){
     //         const newId = id+colNum
     //         const newTile = document.getElementById(newId)
     //         total = newTile.getAttribute('data')
     //         newTile.classList.remove("hidden")
-    //         checkNeighbor(total,newTile)
+    //         checkNeighbor(newTile)
     //     }
     // }
     // document.getElementById(id).classList.remove("hidden");
