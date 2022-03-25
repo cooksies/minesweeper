@@ -7,6 +7,7 @@ var tiles;
 var mineHit = false;
 var click = 0;
 var isGameOver=false;
+var revealed = 0;
 
 function buildGrid() {
 
@@ -40,41 +41,6 @@ function buildGrid() {
         tiles[randIndex].classList.add("bomb");
     }
 
-    // //check how many bombs are beside each tile
-    // for(var i = 0; i < tiles.length; i++){
-    //     var nearBomb = 0;
-    //     const isLeftEdge = (i%colNum === 0)
-    //     const isRightEdge = (i%colNum === colNum -1)
-
-    //     if (tiles[i].classList.contains("hidden")){
-    //         if(i >= 0 && !isLeftEdge && tiles[i -1].classList.contains("bomb")){
-    //             nearBomb++;
-    //         }
-    //         if(i >= colNum-1 && !isRightEdge && tiles[i +1 -colNum].classList.contains("bomb")){
-    //             nearBomb++;
-    //         }
-    //         if(i >= colNum && tiles[i-colNum].classList.contains("bomb")){
-    //             nearBomb++;
-    //         }
-    //         if(i>=colNum+1 && !isLeftEdge && tiles[i -1 -colNum].classList.contains("bomb")){
-    //             nearBomb++;
-    //         }
-    //         if(i<=rowNum*colNum-1 && !isRightEdge && tiles[i+1].classList.contains("bomb")){
-    //             nearBomb++;
-    //         }
-    //         if(i<=rowNum*colNum-colNum && !isLeftEdge && tiles[i -1 +colNum].classList.contains("bomb")){
-    //             nearBomb++;
-    //         }
-    //         if(i<=rowNum*colNum-colNum-2 && !isRightEdge && tiles[i +1 +colNum].classList.contains("bomb")){
-    //             nearBomb++
-    //         }
-    //         if(i<=rowNum*colNum-colNum-1 && tiles[i +colNum].classList.contains("bomb")){
-    //             nearBomb++;
-    //         }
-    //         tiles[i].setAttribute("data",nearBomb)
-    //     }
-    // }
-    
     var style = window.getComputedStyle(tile);
 
     var width = parseInt(style.width.slice(0, -2));
@@ -150,10 +116,6 @@ function handleTileClick(event) {
             // }            
         }        
         else {
-            // let total = document.getElementById(this.id).getAttribute('data')
-            // if (total != 0){
-            //     document.getElementById(this.id).classList.add("tile_"+total)
-            // }
             
             checkNeighbor(this.id)
         }
@@ -176,7 +138,6 @@ function checkNeighbor(id){
     //need to check neighboring cells
     //check if we are at the edge
     tiles = document.getElementById("minefield").children;
-    var pos = parseInt(id)
 
     for(var i = 0; i < tiles.length; i++){
         var nearBomb = 0;
@@ -211,78 +172,37 @@ function checkNeighbor(id){
             tiles[i].setAttribute("data",nearBomb)
         }
     }
+
     let total = document.getElementById(id).getAttribute('data')
-            if (total != 0){
-                document.getElementById(id).classList.add("tile_"+total)
-            }
-            
-    document.getElementById(id).classList.remove("hidden")
+    if (total != 0){
+        document.getElementById(id).classList.add("tile_"+total)
+    }
 
-    
-    // if (total==0){
-    //     var nearBomb;
-    //     const isLeftEdge = (pos%colNum === 0)
-    //     const isRightEdge = (pos%colNum === colNum -1)
+    if(!tiles[id].classList.contains("mine")){
+        revealed++;
+        tiles[id].classList.remove("hidden")
 
-    //     if(id >= 0 && !isLeftEdge && !document.getElementById(id-1).classList.contains("bomb")){
-    //         const newId = id-1
-    //         const newTile = document.getElementById(newId)
-    //         total = newTile.getAttribute('data')
-    //         newTile.classList.remove("hidden")
-    //         checkNeighbor(newTile)
-    //     }
-    //     if(id >= colNum-1 && !isRightEdge && !document.getElementById(id+1-colNum).classList.contains("bomb")){
-    //         const newId = id+1-colNum
-    //         const newTile = document.getElementById(newId)
-    //         total = newTile.getAttribute('data')
-    //         newTile.classList.remove("hidden")
-    //         checkNeighbor(newTile)
-    //     }
-    //     if(id >= colNum && !document.getElementById(id-colNum).classList.contains("bomb")){
-    //         const newId = id-colNum
-    //         const newTile = document.getElementById(newId)
-    //         total = newTile.getAttribute('data')
-    //         newTile.classList.remove("hidden")
-    //         checkNeighbor(newTile)
-    //     }
-    //     if(id>=colNum+1 && !isLeftEdge && !document.getElementById(id-1-colNum).classList.contains("bomb")){
-    //         const newId = id-1-colNum
-    //         const newTile = document.getElementById(newId)
-    //         total = newTile.getAttribute('data')
-    //         newTile.classList.remove("hidden")
-    //         checkNeighbor(newTile)
-    //     }
-    //     if(id<=rowNum*colNum-1 && !isRightEdge && !document.getElementById(id+1).classList.contains("bomb")){
-    //         const newId = id+1
-    //         const newTile = document.getElementById(newId)
-    //         total = newTile.getAttribute('data')
-    //         newTile.classList.remove("hidden")
-    //         checkNeighbor(newTile)
-    //     }
-    //     if(id<=rowNum*colNum-colNum && !isLeftEdge && !document.getElementById(id-1+colNum).classList.contains("bomb")){
-    //         const newId = id-1+colNum
-    //         const newTile = document.getElementById(newId)
-    //         total = newTile.getAttribute('data')
-    //         newTile.classList.remove("hidden")
-    //         checkNeighbor(newTile)
-    //     }
-    //     if(id<=rowNum*colNum-colNum-2 && !isRightEdge && !document.getElementById(id+1+colNum).classList.contains("bomb")){
-    //         const newId = id+1+colNum
-    //         const newTile = document.getElementById(newId)
-    //         total = newTile.getAttribute('data')
-    //         newTile.classList.remove("hidden")
-    //         checkNeighbor(newTile)
-    //     }
-    //     if(id<=rowNum*colNum-colNum-1 && !document.getElementById(id+colNum).classList.contains("bomb")){
-    //         const newId = id+colNum
-    //         const newTile = document.getElementById(newId)
-    //         total = newTile.getAttribute('data')
-    //         newTile.classList.remove("hidden")
-    //         checkNeighbor(newTile)
-    //     }
-    // }
-    // document.getElementById(id).classList.remove("hidden");
+        var x=id%colNum
+        var y=Math.floor(id/colNum)
 
+        if(document.getElementById(id).getAttribute('data')==0){
+            if(x>0&&tiles[id-1].classList.contains("hidden"))        checkNeighbor(id-1);                                        // left
+
+            if(x<(colNum-1)&&tiles[+id+1].classList.contains("hidden")) checkNeighbor(+id+1);                                // right
+
+            if(y<(rowNum-1)&&tiles[+id+colNum].classList.contains("hidden")) checkNeighbor(+id+colNum);                        // down
+
+            if(y>0&&tiles[id-colNum].classList.contains("hidden")) checkNeighbor(id-colNum);                                // up
+        
+            if(x>0&&y>0&&tiles[id-colNum-1].classList.contains("hidden")) checkNeighbor(id-colNum-1);                        // up & left
+
+            if(x<(colNum-1)&&y<(rowNum-1)&&tiles[+id+colNum+1].classList.contains("hidden")) checkNeighbor(+id+colNum+1);        // down & right
+
+            if(x>0&&y<(rowNum-1)&&y<(rowNum-1)&&tiles[+id+colNum-1].classList.contains("hidden")) checkNeighbor(+id+colNum-1);                // down & left
+
+            if(x<(colNum-1)&&y>0&&y<(rowNum-1)&&tiles[+id-colNum+1].classList.contains("hidden")) checkNeighbor(+id-colNum+1);
+        }
+    }
 }
 
 function setDifficulty() {
