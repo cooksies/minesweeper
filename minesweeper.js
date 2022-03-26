@@ -68,6 +68,7 @@ function startGame() {
     buildGrid();
     startTimer();
     inactivityTime();
+    revealed=0;
 }
 
 // function gameOver() {
@@ -143,6 +144,10 @@ function handleTileClick(event) {
         }        
         else {
             checkNeighbor(this.id)
+        }
+        //check win here
+        if(revealed==rowNum*colNum-bombAmount){
+            alert("You Win")
         }
         
     }
@@ -228,15 +233,15 @@ function checkNeighbor(id){
             if(x<(colNum-1)&&y>0&&y<(rowNum-1)&&tiles[+id-colNum+1].classList.contains("hidden")) checkNeighbor(+id-colNum+1);
         }        
     }
-    for(var i = 0; i < tiles.length; i++){
-        if(tiles[i].classList.contains("hidden") && !tiles[i].classList.contains("bomb")){
-            break;
-        }
-        else if(!tiles[i].classList.contains("hidden") && !tiles[i].classList.contains("bomb")){            
-            alert("You Win")
-            break;
-        }
-    }
+    // for(var i = 0; i < tiles.length; i++){
+    //     if(tiles[i].classList.contains("hidden") && !tiles[i].classList.contains("bomb")){
+    //         break;
+    //     }
+    //     else if(!tiles[i].classList.contains("hidden") && !tiles[i].classList.contains("bomb")){            
+    //         alert("You Win")
+    //         break;
+    //     }
+    // }
     
 }
 
