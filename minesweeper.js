@@ -70,6 +70,31 @@ function startGame() {
     inactivityTime();
 }
 
+// function gameOver() {
+//     clearInterval(startTimer);
+
+
+    
+
+//     // const gameOver = document.createElement('h1');
+//     // gameOver.innerHTML = 'GAME OVER!' + '<br>' + `Total Score: ${totalScore}`;
+
+//     // gameDiv.append(gameOver);
+// }
+
+// function checkWin(){
+//     tiles = document.getElementById("minefield").children;
+//     for(var i = 0; i < tiles.length; i++){
+//         if(tiles[i].classList.contains("hidden") && !tiles[i].classList.contains("bomb")){
+//             break;
+//         }
+//         if(!tiles[i].classList.contains("hidden") && !tiles[i].classList.contains("bomb")){            
+//             alert("You Win")
+//             break;
+//         }
+//     }
+// }
+
 function smileyDown() {
     var smiley = document.getElementById("smiley");
     smiley.classList.add("face_down");
@@ -82,7 +107,7 @@ function smileyUp() {
 
 function handleTileClick(event) {
     //prevent user from inputting
-    //if(isGameOver){return}
+    if(isGameOver){return}
     
     // Left Click
     if (event.which === 1) {
@@ -91,6 +116,7 @@ function handleTileClick(event) {
             return
         }
         else if(document.getElementById(this.id).classList.contains("bomb")){
+            // gameOver()
             //trying to avoid the first tile clicked to be a mine
             // if(click === 1){
             //     startGame();
@@ -116,7 +142,6 @@ function handleTileClick(event) {
             // }            
         }        
         else {
-            
             checkNeighbor(this.id)
         }
         
@@ -201,8 +226,18 @@ function checkNeighbor(id){
             if(x>0&&y<(rowNum-1)&&y<(rowNum-1)&&tiles[+id+colNum-1].classList.contains("hidden")) checkNeighbor(+id+colNum-1);                // down & left
 
             if(x<(colNum-1)&&y>0&&y<(rowNum-1)&&tiles[+id-colNum+1].classList.contains("hidden")) checkNeighbor(+id-colNum+1);
+        }        
+    }
+    for(var i = 0; i < tiles.length; i++){
+        if(tiles[i].classList.contains("hidden") && !tiles[i].classList.contains("bomb")){
+            break;
+        }
+        else if(!tiles[i].classList.contains("hidden") && !tiles[i].classList.contains("bomb")){            
+            alert("You Win")
+            break;
         }
     }
+    
 }
 
 function setDifficulty() {
@@ -274,15 +309,3 @@ function inactivityTime() {
     }
 
 }
-
-// function gameOver() {
-//     clearInterval(startCountDown);
-
-//     const button = document.querySelector('button')
-//     button.removeEventListener('click', pointsClick)
-
-//     const gameOver = document.createElement('h1');
-//     gameOver.innerHTML = 'GAME OVER!' + '<br>' + `Total Score: ${totalScore}`;
-
-//     gameDiv.append(gameOver);
-// }
