@@ -67,6 +67,7 @@ function startGame() {
     setDifficulty(); //included setDifficulty to change difficulty when smiley is clicked
     buildGrid();
     startTimer();
+    // window.setTimeout()
     inactivityTime();
     revealed=0;
     isGameOver=false
@@ -80,9 +81,14 @@ function smileyDown() {
 function smileyUp() {
     var smiley = document.getElementById("smiley");
     smiley.classList.remove("face_down");
+    smiley.classList.remove("face_lose");
+    smiley.classList.remove("face_win");
 }
 
 function handleTileClick(event) {
+    //start timer on first click
+    // startTimer();        %this works continues after grid restart
+
     //prevent user from inputting
     if(isGameOver){
         event.preventDefault();
@@ -116,7 +122,8 @@ function handleTileClick(event) {
                         tiles[i].classList.add("mine");
                     }                
                 }
-                document.getElementById(this.id).onclick = alert("You hit a mine!\n\nGAME OVER!\n\nTime: " + time)
+                document.getElementById("smiley").classList.add("face_lose");
+                document.getElementById(this.id).onclick = alert("GAME OVER!\n\nYou hit a mine!\n\nTime: " + time)
                 isGameOver=true
             // }            
         }        
@@ -125,7 +132,8 @@ function handleTileClick(event) {
         }
         //check win here
         if(revealed==rowNum*colNum-bombAmount){
-            alert("You Win")
+            document.getElementById("smiley").classList.add("face_win");
+            alert("CONGRATULATIONS!\n\nYou Win!\n\nTime: " + time)
             isGameOver=true
         }
         
