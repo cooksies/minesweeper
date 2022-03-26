@@ -69,6 +69,7 @@ function startGame() {
     startTimer();
     inactivityTime();
     revealed=0;
+    isGameOver=false
 }
 
 function smileyDown() {
@@ -83,7 +84,10 @@ function smileyUp() {
 
 function handleTileClick(event) {
     //prevent user from inputting
-    if(isGameOver){return}
+    if(isGameOver){
+        event.preventDefault();
+        return
+    }
     
     // Left Click
     if (event.which === 1) {
@@ -113,7 +117,7 @@ function handleTileClick(event) {
                     }                
                 }
                 document.getElementById(this.id).onclick = alert("You hit a mine!\n\nGAME OVER!\n\nTime: " + time)
-                //isGameOver=true
+                isGameOver=true
             // }            
         }        
         else {
@@ -122,6 +126,7 @@ function handleTileClick(event) {
         //check win here
         if(revealed==rowNum*colNum-bombAmount){
             alert("You Win")
+            isGameOver=true
         }
         
     }
