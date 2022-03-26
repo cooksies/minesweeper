@@ -66,16 +66,18 @@ function createTile(x,y) {
 function startGame() {
     setDifficulty(); //included setDifficulty to change difficulty when smiley is clicked
     buildGrid();
-    startTimer();
     // window.setTimeout()
     inactivityTime();
     revealed=0;
     isGameOver=false
+    click=0;
+    timeValue=0
 }
 
 function smileyDown() {
     var smiley = document.getElementById("smiley");
     smiley.classList.add("face_down");
+    
 }
 
 function smileyUp() {
@@ -87,7 +89,7 @@ function smileyUp() {
 
 function handleTileClick(event) {
     //start timer on first click
-    // startTimer();        %this works continues after grid restart
+    // startTimer();        //%this works continues after grid restart
 
     //prevent user from inputting
     if(isGameOver){
@@ -97,17 +99,23 @@ function handleTileClick(event) {
     
     // Left Click
     if (event.which === 1) {
+
         click++;
+        if(click === 1){
+            // startTimer()
+        }
+
         if(!document.getElementById(this.id).classList.contains("hidden") || document.getElementById(this.id).classList.contains("flag")){
             return
         }
         else if(document.getElementById(this.id).classList.contains("bomb")){
             //trying to avoid the first tile clicked to be a mine
-            // if(click === 1){
-            //     startGame();
-            //     click=0;
-            // }
-            // else{
+            if(click === 1){
+                // startGame();
+                // startTimer()
+                // click=0;
+            }
+            else{
                 document.getElementById(this.id).classList.add("mine_hit");
                 
                 mineHit=true;
@@ -123,9 +131,9 @@ function handleTileClick(event) {
                     }                
                 }
                 document.getElementById("smiley").classList.add("face_lose");
-                document.getElementById(this.id).onclick = alert("GAME OVER!\n\nYou hit a mine!\n\nTime: " + time + "\n\nPress Face to Play again!")
+                document.getElementById(this.id).onclick = alert("GAME OVER!\n\nYou hit a mine!\n\nTime: " + timeValue + "\n\nPress Face to Play again!")
                 isGameOver=true
-            // }            
+            }            
         }        
         else {
             checkNeighbor(this.id)
@@ -133,7 +141,7 @@ function handleTileClick(event) {
         //check win
         if(revealed==rowNum*colNum-bombAmount){
             document.getElementById("smiley").classList.add("face_win");
-            alert("CONGRATULATIONS!\n\nYou Win!\n\nTime: " + time + "\n\nPress Face to Play again!")
+            alert("CONGRATULATIONS!\n\nYou Win!\n\nTime: " + timeValue + "\n\nPress Face to Play again!")
             isGameOver=true
         }
         
@@ -247,26 +255,31 @@ function setDifficulty() {
     
 }
 
+var timeValue = 0;
 function startTimer() {
-    timeValue = 0;
-    if(mineHit === false){
-        window.setInterval(onTimerTick, 1000);
-    }
-    else{
-        window.clearTimeout(onTimerTick)
-    }
+    setTimeout(function() {
+        var timerDiv = document.getElementById("timer");
+        timeValue++
+        timerDiv.innerHTML = timeValue;
+        startTimer();
+    }, 1000)
+    // if(mineHit === false){
+    //     window.setInterval(onTimerTick, 1000);
+    // }
+    // else{
+    //     window.clearInterval(onTimerTick)
+    // }
     
 }
 
-function onTimerTick() {
-    timeValue++;
-    updateTimer();
-}
+// function onTimerTick() {
+//     timeValue++;
+//     updateTimer();
+// }
 
-function updateTimer() {
-    document.getElementById("timer").innerHTML = timeValue;
-    time = timeValue
-}
+// function updateTimer() {
+//     document.getElementById("timer").innerHTML = timeValue;
+// }
 
 function inactivityTime() {
     var timeOut;
