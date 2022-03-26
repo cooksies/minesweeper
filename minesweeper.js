@@ -123,17 +123,17 @@ function handleTileClick(event) {
                     }                
                 }
                 document.getElementById("smiley").classList.add("face_lose");
-                document.getElementById(this.id).onclick = alert("GAME OVER!\n\nYou hit a mine!\n\nTime: " + time)
+                document.getElementById(this.id).onclick = alert("GAME OVER!\n\nYou hit a mine!\n\nTime: " + time + "\n\nPress Face to Play again!")
                 isGameOver=true
             // }            
         }        
         else {
             checkNeighbor(this.id)
         }
-        //check win here
+        //check win
         if(revealed==rowNum*colNum-bombAmount){
             document.getElementById("smiley").classList.add("face_win");
-            alert("CONGRATULATIONS!\n\nYou Win!\n\nTime: " + time)
+            alert("CONGRATULATIONS!\n\nYou Win!\n\nTime: " + time + "\n\nPress Face to Play again!")
             isGameOver=true
         }
         
