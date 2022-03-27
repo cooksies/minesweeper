@@ -67,7 +67,8 @@ function createTile(x,y) {
 function startGame() {
     setDifficulty(); //included setDifficulty to change difficulty when smiley is clicked
     buildGrid();
-    inactivityTime();
+    inactivityTime(); //call function that check mouse movement
+    //reset variables
     revealed=0;
     isGameOver=false
     click=0;
@@ -135,7 +136,7 @@ function handleTileClick(event) {
             }            
         }        
         else {
-            checkNeighbor(this.id)
+            checkNeighbor(this.id)//check neighboring tiles
         }
         //check win
         if(revealed==rowNum*colNum-bombAmount){
@@ -161,11 +162,11 @@ function handleTileClick(event) {
 
 function checkNeighbor(id){
     //need to check neighboring cells
-    //check if we are at the edge
     tiles = document.getElementById("minefield").children;
 
     for(var i = 0; i < tiles.length; i++){
         var nearBomb = 0;
+        //check if we are at the edge
         const isLeftEdge = (i%colNum === 0)
         const isRightEdge = (i%colNum === colNum -1)
 
@@ -198,11 +199,13 @@ function checkNeighbor(id){
         }
     }
 
+    //place numbered tiles if beside a bomb
     let total = document.getElementById(id).getAttribute('data')
     if (total != 0){
         document.getElementById(id).classList.add("tile_"+total)
     }
 
+    //reveal neighboring tiles
     if(!tiles[id].classList.contains("mine")){
         revealed++;
         tiles[id].classList.remove("hidden")
@@ -258,14 +261,7 @@ function setDifficulty() {
 
 function startTimer() {
     timeValue = 0;
-    if(isGameOver){
-        clearInterval(timer)
-    }
-    else{
-        timer = setInterval(onTimerTick, 1000);
-    }
-    
-    
+    timer = setInterval(onTimerTick, 1000); 
 }
 
 function onTimerTick() {
