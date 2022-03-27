@@ -66,7 +66,7 @@ function createTile(x,y) {
 function startGame() {
     setDifficulty(); //included setDifficulty to change difficulty when smiley is clicked
     buildGrid();
-    // window.setTimeout()
+    clearTimeout(startTimer)
     inactivityTime();
     revealed=0;
     isGameOver=false
@@ -88,8 +88,6 @@ function smileyUp() {
 }
 
 function handleTileClick(event) {
-    //start timer on first click
-    // startTimer();        //%this works continues after grid restart
 
     //prevent user from inputting
     if(isGameOver){
@@ -102,7 +100,7 @@ function handleTileClick(event) {
 
         click++;
         if(click === 1){
-            // startTimer()
+            startTimer()
         }
 
         if(!document.getElementById(this.id).classList.contains("hidden") || document.getElementById(this.id).classList.contains("flag")){
@@ -111,9 +109,8 @@ function handleTileClick(event) {
         else if(document.getElementById(this.id).classList.contains("bomb")){
             //trying to avoid the first tile clicked to be a mine
             if(click === 1){
-                // startGame();
-                // startTimer()
-                // click=0;
+                buildGrid();
+                checkNeighbor(this.id)
             }
             else{
                 document.getElementById(this.id).classList.add("mine_hit");
@@ -133,6 +130,7 @@ function handleTileClick(event) {
                 document.getElementById("smiley").classList.add("face_lose");
                 document.getElementById(this.id).onclick = alert("GAME OVER!\n\nYou hit a mine!\n\nTime: " + timeValue + "\n\nPress Face to Play again!")
                 isGameOver=true
+                clearTimeout(startTimer)
             }            
         }        
         else {
@@ -143,6 +141,7 @@ function handleTileClick(event) {
             document.getElementById("smiley").classList.add("face_win");
             alert("CONGRATULATIONS!\n\nYou Win!\n\nTime: " + timeValue + "\n\nPress Face to Play again!")
             isGameOver=true
+            clearTimeout(startTimer)
         }
         
     }
@@ -255,31 +254,21 @@ function setDifficulty() {
     
 }
 
-var timeValue = 0;
+
 function startTimer() {
-    setTimeout(function() {
-        var timerDiv = document.getElementById("timer");
-        timeValue++
-        timerDiv.innerHTML = timeValue;
-        startTimer();
-    }, 1000)
-    // if(mineHit === false){
-    //     window.setInterval(onTimerTick, 1000);
-    // }
-    // else{
-    //     window.clearInterval(onTimerTick)
-    // }
+    timeValue = 0;
+    window.setInterval(onTimerTick, 1000);
     
 }
 
-// function onTimerTick() {
-//     timeValue++;
-//     updateTimer();
-// }
+function onTimerTick() {
+    timeValue++;
+    updateTimer();
+}
 
-// function updateTimer() {
-//     document.getElementById("timer").innerHTML = timeValue;
-// }
+function updateTimer() {
+    document.getElementById("timer").innerHTML = timeValue;
+}
 
 function inactivityTime() {
     var timeOut;
