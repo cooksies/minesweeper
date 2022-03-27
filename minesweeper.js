@@ -8,6 +8,7 @@ var mineHit = false;
 var click = 0;
 var isGameOver=false;
 var revealed = 0;
+var timer;
 
 function buildGrid() {
 
@@ -66,7 +67,6 @@ function createTile(x,y) {
 function startGame() {
     setDifficulty(); //included setDifficulty to change difficulty when smiley is clicked
     buildGrid();
-    clearTimeout(startTimer)
     inactivityTime();
     revealed=0;
     isGameOver=false
@@ -100,6 +100,7 @@ function handleTileClick(event) {
 
         click++;
         if(click === 1){
+            clearInterval(timer)
             startTimer()
         }
 
@@ -130,7 +131,7 @@ function handleTileClick(event) {
                 document.getElementById("smiley").classList.add("face_lose");
                 document.getElementById(this.id).onclick = alert("GAME OVER!\n\nYou hit a mine!\n\nTime: " + timeValue + "\n\nPress Face to Play again!")
                 isGameOver=true
-                clearTimeout(startTimer)
+                clearInterval(timer)
             }            
         }        
         else {
@@ -141,7 +142,7 @@ function handleTileClick(event) {
             document.getElementById("smiley").classList.add("face_win");
             alert("CONGRATULATIONS!\n\nYou Win!\n\nTime: " + timeValue + "\n\nPress Face to Play again!")
             isGameOver=true
-            clearTimeout(startTimer)
+            clearInterval(timer)
         }
         
     }
@@ -257,7 +258,13 @@ function setDifficulty() {
 
 function startTimer() {
     timeValue = 0;
-    window.setInterval(onTimerTick, 1000);
+    if(isGameOver){
+        clearInterval(timer)
+    }
+    else{
+        timer = setInterval(onTimerTick, 1000);
+    }
+    
     
 }
 
