@@ -73,6 +73,7 @@ function startGame() {
     isGameOver=false
     click=0;
     timeValue=0
+    document.getElementById("timer").innerHTML = "0"
 }
 
 function smileyDown() {
